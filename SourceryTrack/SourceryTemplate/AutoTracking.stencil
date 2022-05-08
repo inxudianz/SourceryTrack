@@ -1,0 +1,26 @@
+{% for type in types.implementing.AutoTracking %}
+// MARK: {{ type.name }} Auto Tracking
+
+// remove
+final class {{type.name}}Auto: {{type.name}} {
+{% for method in type.methods %}
+    func {{ method.shortName }}(
+    {% for param in method.parameters %}
+        {{ param.name }}: {{ param.typeName }}
+    {% endfor %}
+    ) {
+        let trackingManager: TrackingManager = TrackingManager()
+            .setTracking(for: {% for methodName in method.shortName|split: "Amplitude" %}{% if forloop.last %}{% if forloop.length == 2 %}.amplitude{% else %}.bigQuery{% endif %}{% endif %}{% endfor %})
+            .constructParam(
+                with:
+            {% for param in method.parameters %}
+                TrackingManager.TrackingParam(key: .{{ param.name }}, value: {{ param.name }}){% if not forloop.last %},{% endif %}
+            {% endfor %}
+            )
+            
+        trackingManager.trackEvent()
+    }
+}
+{% endfor %}
+}
+{% endfor %}
