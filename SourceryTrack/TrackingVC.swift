@@ -8,11 +8,13 @@
 import Foundation
 
 protocol TrackingVCProtocol: AutoTracking {
+// sourcery: eventName = "event name track"
     func track(name: String,
                email: String,
                password: String,
                rating: Float)
-    
+
+// sourcery: eventName = "event name track amplitude"
     func trackAmplitude(
         name: String,
         email: String,

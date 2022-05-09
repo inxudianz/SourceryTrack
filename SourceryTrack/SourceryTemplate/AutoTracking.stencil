@@ -10,14 +10,14 @@ final class {{type.name}}Auto: {{type.name}} {
     {% endfor %}
     ) {
         let trackingManager: TrackingManager = TrackingManager()
-            .setTracking(for: {% for methodName in method.shortName|split: "Amplitude" %}{% if forloop.last %}{% if forloop.length == 2 %}.amplitude{% else %}.bigQuery{% endif %}{% endif %}{% endfor %})
+            .setTracking(for: {% if method.shortName|hasSuffix:"Amplitude" %}.amplitude{% else %}.bigQuery{% endif %})
             .constructParam(
                 with:
             {% for param in method.parameters %}
                 TrackingManager.TrackingParam(key: .{{ param.name }}, value: {{ param.name }}){% if not forloop.last %},{% endif %}
             {% endfor %}
             )
-            
+            .setEventName(with: "{% if method.annotations|annotated:"eventName" %}{{ method.annotations.eventName }}{% endif %}")
         trackingManager.trackEvent()
     }
 }

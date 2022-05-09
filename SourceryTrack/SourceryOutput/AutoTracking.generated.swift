@@ -20,6 +20,7 @@ final class TrackingVCProtocolAuto: TrackingVCProtocol {
                 TrackingManager.TrackingParam(key: .password, value: password),
                 TrackingManager.TrackingParam(key: .rating, value: rating)
             )
+            .setEventName(with: "event name track")
         trackingManager.trackEvent()
     }
 }
@@ -36,6 +37,7 @@ final class TrackingVCProtocolAuto: TrackingVCProtocol {
                 TrackingManager.TrackingParam(key: .email, value: email),
                 TrackingManager.TrackingParam(key: .password, value: password)
             )
+            .setEventName(with: "event name track amplitude")
         trackingManager.trackEvent()
     }
 }
